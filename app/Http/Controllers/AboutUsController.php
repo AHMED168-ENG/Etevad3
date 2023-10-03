@@ -9,8 +9,8 @@ use Validator;
 class AboutUsController extends Controller
 {
     public function __construct() {
-        $this->middleware("AuthAdmin");
-        $this->middleware('can:صفحه عنا', ['only' => ['show']]);
+        $this->middleware("AuthAdmin" , ["except" => "show"]);
+        // $this->middleware('can:صفحه عنا', ['only' => ['show']]);
         $this->middleware('can:تعديل صفحه عنا', ['only' => ['update']]);
     
     }

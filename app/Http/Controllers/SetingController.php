@@ -9,8 +9,7 @@ use Validator;
 class SetingController extends Controller
 {
     public function __construct() {
-        $this->middleware("AuthAdmin");
-        $this->middleware('can:اعدادات الموقع', ['only' => ['show']]);
+        $this->middleware("AuthAdmin" ,["except" => "show"]);
         $this->middleware('can:تغير حاله الموقع', ['only' => ['activation']]);
         $this->middleware('can:تعديل اعدادات الموقع', ['only' => ['update']]);
         $this->middleware('can:ارفاق اللوجو العلوي للاعدادات', ['only' => ['upload_site_upper_logo']]);
@@ -85,6 +84,7 @@ class SetingController extends Controller
                 "site_keywords" => "required",
                 "site_description" => "required",
                 "site_active" => "required",
+                "copyrights" => "required",
             ] , [
                 "site_address.required" => "ادخل العنوان الخاص بالموقع ",
                 "site_phone.required" => "اخل التليفون الخاص بالموقع",
@@ -102,6 +102,7 @@ class SetingController extends Controller
                 "site_keywords.required" => "ادخل الكلمات المعبره عن الموقع مفصوله ب ,",
                 "site_description.required" => "ادخل الوصف الخاص بالموقع ",
                 "site_active.required" => "ادخل حاله الموقع سواء مغلق او متاح",
+                "copyrights.required" => "ادخل حقوق النشر و الطبع",
 
             ]);
 
@@ -130,11 +131,11 @@ class SetingController extends Controller
             $seting = seting::first();
             $validation = Validator::make($request->all() ,
             [
-                "site_lower_logo" => "required|mimes:jpg,jpeg,png,bmp,tiff|max:4096",
+                "site_lower_logo" => "required|mimes:jpg,jpeg,png,bmp,svg,tiff|max:4096",
 
             ] , [
                 "site_lower_logo.required" => "يجب ارفاق الصوره",
-                "site_lower_logo.mimes" => "يجب ان يكون نوع الصوره اما jpg,jpeg,png,bmp,tiff",
+                "site_lower_logo.mimes" => "يجب ان يكون نوع الصوره اما jpg,jpeg,png,bmp,svg,tiff",
                 "site_lower_logo.max" => "الملف لا يجب ان يتعدي 4 mb",
             ]);
             if($validation->fails()) {
@@ -170,11 +171,11 @@ class SetingController extends Controller
             $seting = seting::first();
             $validation = Validator::make($request->all() ,
             [
-                "site_upper_logo" => "required|mimes:jpg,jpeg,png,bmp,tiff|max:4096",
+                "site_upper_logo" => "required|mimes:jpg,jpeg,png,bmp,svg,tiff|max:4096",
 
             ] , [
                 "site_upper_logo.required" => "يجب ارفاق الصوره",
-                "site_upper_logo.mimes" => "يجب ان يكون نوع الصوره اما jpg,jpeg,png,bmp,tiff",
+                "site_upper_logo.mimes" => "يجب ان يكون نوع الصوره اما jpg,jpeg,png,bmp,svg,tiff",
                 "site_upper_logo.max" => "الملف لا يجب ان يتعدي 4 mb",
             ]);
 

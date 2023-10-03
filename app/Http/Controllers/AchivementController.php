@@ -11,7 +11,7 @@ use App\Exports\AchivementExcel;
 class AchivementController extends Controller
 {
     public function __construct() {
-        $this->middleware("AuthAdmin" , ["except" => "excelFile"]);
+        $this->middleware("AuthAdmin" , ["except" =>[ "excelFile" , "activeAchivement" , "lastThree" , "achivementTypes"]]);
         $this->middleware('can:كل الانجازات', ['only' => ['index']]);
         $this->middleware('can:تفاصيل الانجاز', ['only' => ['show']]);
         $this->middleware('can:حاله الانجاز', ['only' => ['activation']]);

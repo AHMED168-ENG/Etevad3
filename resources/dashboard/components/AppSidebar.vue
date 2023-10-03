@@ -13,7 +13,7 @@
   >
     <router-link to="/">
       <CSidebarBrand>
-        <img style="width: 70%" src="/images/logo_Tahakom.png" alt="" />
+        <img style="width: 70%" :src="'./images/seting/' + seting.site_lower_logo" alt="" />
       </CSidebarBrand>
     </router-link>
     <AppSidebarNav />
@@ -35,6 +35,11 @@ export default {
   components: {
     AppSidebarNav,
   },
+  data() {
+    return {
+      seting : {}
+    }
+  },
   setup() {
     const store = useStore();
     return {
@@ -44,5 +49,8 @@ export default {
       sidebarVisible: computed(() => store.state.sidebarVisible),
     };
   },
+  created() {
+    this.seting = this.$store.getters.getSeting
+  }
 };
 </script>

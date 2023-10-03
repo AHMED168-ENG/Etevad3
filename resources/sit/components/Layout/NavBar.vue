@@ -12,7 +12,7 @@
     <div class="container">
       <div>
         <router-link to="/" class="navbar-brand"
-          ><img src="../../assets/photos/logo.svg"
+          ><img :src="'./images/seting/' + seting.site_upper_logo"
         /></router-link>
       </div>
       <div class="d-flex gp-5 align-items-center justify-content-between">
@@ -151,14 +151,25 @@
 <script>
 export default {
   data() {
+    
     const Routes = [];
-    return Routes;
+    return {
+      seting:{},
+      Routes
+    };
   },
   mounted() {
     this.Routes = this.$router.options.routes;
   },
+  created() {
+    setTimeout(() => {
+      this.seting = this.$store.getters.getSeting
+    }, 1000);
+  }
 };
 </script>
+
+
 <style scoped lang="scss">
 .contact {
   color: white;

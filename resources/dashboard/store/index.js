@@ -6,9 +6,13 @@ export default createStore({
     isAdminLogin: false,
     Admin: {},
     permissions: [],
+    seting: {},
   },
   getters: {
     // start admin part
+    getSeting(state) {
+      return state.seting;
+    },
     getAdminTocken(state) {
       return state.AdminToken;
     },
@@ -34,6 +38,9 @@ export default createStore({
       state.isAdminLogin = true;
       state.Admin = payload.data.user;
       state.permissions = payload.data.permissions;
+    },
+    async setSeting(state, payload) {
+      state.seting = payload.seting;
     },
     logout(state) {
       state.AdminToken = "";

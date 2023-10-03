@@ -11,7 +11,7 @@ use App\Exports\CoverageExcel;
 class CoverageController extends Controller
 {
     public function __construct() {
-        $this->middleware("AuthAdmin" , ["except" => "excelFile"]);
+        $this->middleware("AuthAdmin" , ["except" => ["excelFile" , "lastCoverage" , "activeCoverages"]]);
         $this->middleware('can:كل التغطيات', ['only' => ['index']]);
         $this->middleware('can:تفاصيل التغطيه', ['only' => ['show']]);
         $this->middleware('can:حاله التغطيه', ['only' => ['activation']]);

@@ -761,7 +761,7 @@ const routes = [
     },
   },
   {
-    path: "/event",
+    path: "/event/:id",
     name: "event",
     component: Event,
     meta: {
@@ -770,7 +770,7 @@ const routes = [
     },
   },
   {
-    path: "/news",
+    path: "/news/:id",
     name: "news",
     component: News,
     meta: {
@@ -807,6 +807,27 @@ const router = createRouter({
   },
 });
 router.beforeEach((to, from, next) => {
+  // get app seting
+    axios
+      .get("/seting/index")
+      .then((result) => {
+        if (result.data.status == true) {
+          store.commit("setSeting" , {seting : result.data.seting})
+        } else if (result.data.status == null) {
+          Toast.fire({
+            icon: "error",
+            title: result.data.error,
+          });
+        } else {
+          this.message.errors = result.data.errors;
+        }
+      })
+      .catch((error) => {
+        Toast.fire({
+          icon: "error",
+          title: error,
+        });
+      });
   let AdminToken = window.localStorage.getItem("AdminToken");
   if (AdminToken && !store.getters.isAdminLogin) {
     axios

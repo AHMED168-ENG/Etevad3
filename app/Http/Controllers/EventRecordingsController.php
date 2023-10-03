@@ -11,7 +11,7 @@ use Validator;
 class EventRecordingsController extends Controller
 {
     public function __construct() {
-        $this->middleware("AuthAdmin" , ["except" => "excelFile"]);
+        $this->middleware("AuthAdmin" , ["except" => ["excelFile" , "lastRecordings" , "store" , "update"]]);
     }   
     /**
      * Display a listing of the resource.

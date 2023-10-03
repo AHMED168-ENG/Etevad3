@@ -17,7 +17,7 @@
                   {{ AllNews[0]?.title }}
                 </h3>
                 <hr />
-                <p class="mb-2" v-html="AllNews[0]?.full_description">
+                <p class="mb-2" style="overflow: hidden;display: -webkit-box;-webkit-line-clamp: 2;-webkit-box-orient: vertical;" v-html="AllNews[0]?.full_description">
                   
                 </p>
               </div>
@@ -28,9 +28,9 @@
                 </div>
                 <div>
                   <router-link
-                    :to="{ name: 'news' }"
+                    :to="'/news/' + AllNews[0]?.id"
                     style="line-height: 50px; padding-left: 30px; color: #d2398d"
-                    ><p class="fw-bold">المزيد ..</p></router-link
+                    ><p class="fw-bold">التفاصيل ..</p></router-link
                   >
                 </div>
               </div>
@@ -70,9 +70,12 @@
                   alt="Card image cap"
                 />
                 <div class="card-body">
-                  <p class="card-text fw-bold" style="text-align: right">
+            
+                  <router-link style="text-decoration: none;color:rgb(48, 99, 134)" :to="'/news/' + news.id">
+                    <p class="card-text fw-bold" style="text-align: right">
                     {{ news.title }}
                   </p>
+                  </router-link>
                   <hr />
                   <div style="float: right">
                     <img src="../../assets/photos/Vector2.svg" />
@@ -96,9 +99,11 @@
                   alt="Card image cap"
                 />
                 <div class="card-body">
-                  <p class="card-text fw-bold" style="text-align: right">
-                    {{ news.title }}
-                  </p>
+                  <router-link style="text-decoration: none;color:rgb(48, 99, 134)" :to="'/news/' + news.id">
+                    <p class="card-text fw-bold" style="text-align: right">
+                      {{ news.title }}
+                    </p>
+                  </router-link>
                   <hr />
                   <div style="float: right">
                     <img src="../../assets/photos/Vector2.svg" />

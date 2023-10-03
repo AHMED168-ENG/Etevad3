@@ -10,7 +10,7 @@ use Maatwebsite\Excel\Facades\Excel;
 class SponserController extends Controller
 {
     public function __construct() {
-        $this->middleware("AuthAdmin" , ["except" => "excelFile"]);
+        $this->middleware("AuthAdmin" , ["except" => ["excelFile" , "lastSponser"]]);
         $this->middleware('can:كل الداعمين', ['only' => ['index']]);
         $this->middleware('can:تفاصيل الداعم', ['only' => ['show']]);
         $this->middleware('can:حاله الداعم', ['only' => ['activation']]);

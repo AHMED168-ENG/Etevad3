@@ -11,7 +11,7 @@ class HeroController extends Controller
 
 {
     public function __construct() {
-        $this->middleware("AuthAdmin" , ["except" => "excelFile"]);
+        $this->middleware("AuthAdmin" , ["except" =>[ "excelFile" , "lastHeros"]]);
     }   
     /**
      * Display a listing of the resource.

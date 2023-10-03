@@ -11,9 +11,8 @@ use \Carbon\Carbon;
 class EventController extends Controller
 {
     public function __construct() {
-        $this->middleware("AuthAdmin" , ["except" => "excelFile"]);
+        $this->middleware("AuthAdmin" , ["except" => ["excelFile" , "activeEvent" , "show"]]);
         $this->middleware('can:كل التغطيات', ['only' => ['index']]);
-        $this->middleware('can:تفاصيل الحدث', ['only' => ['show']]);
         $this->middleware('can:حاله الحدث', ['only' => ['activation']]);
         $this->middleware('can:اضافه حدث', ['only' => ['store']]);
         $this->middleware('can:تعديل حدث', ['only' => ['update']]);

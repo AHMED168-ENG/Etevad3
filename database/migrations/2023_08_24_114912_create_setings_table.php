@@ -30,6 +30,7 @@ class CreateSetingsTable extends Migration
             $table->text("site_description");
             $table->string("site_upper_logo");
             $table->string("site_lower_logo");
+            $table->string("copyrights");
             $table->boolean("site_active")->default(true)->comment("0 meen sit is close and 1 meen sit is open");
             $table->timestamps();
         });

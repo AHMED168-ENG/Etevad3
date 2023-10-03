@@ -206,4 +206,10 @@ nav {
     color: #2c3e50;
   }
 }
+.card {
+  box-shadow: none !important;
+}
+.card-title {
+  font-size: 24px !important;
+}
 </style>

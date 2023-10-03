@@ -100,7 +100,7 @@
           padding-left: 30px;
           color: #d2398d;
         "
-        :to="{ name: 'event' }"
+        :to="'/event/' + event.id"
         ><p class="fw-bold">تفاصيل ..</p></router-link
       >
     </div>

@@ -26,7 +26,7 @@
                             <input
                               type="file"
                               id="iconUpload"
-                              accept=".png, .jpg, .jpeg"
+                              
                               @change="setSiteUpperLogo"
                             />
                             <label for="iconUpload"
@@ -70,7 +70,7 @@
                             <input
                               type="file"
                               id="imageUpload"
-                              accept=".png, .jpg, .jpeg"
+                              
                               @change="setSeting_lower_logo"
                             />
                             <label for="imageUpload"
@@ -180,6 +180,27 @@
                           {{ seting.errors.site_name[0] }}
                         </span>
                       </div>
+              
+                      <div class="form-contole">
+                        <label class="form-controle">  حقوق النشر</label>
+                        <ckeditor
+                          autocomplete="on"
+                          :class="[
+                            'form-control',
+                            seting.errors.copyrights ? 'is-invalid' : '',
+                          ]"
+                          type="text"
+                          v-model="seting.data.copyrights"
+                          :editor="editor"
+                          :config="editorConfig"
+                        ></ckeditor>
+                        <span
+                          v-if="seting.errors.copyrights"
+                          class="invalid-feedback"
+                        >
+                          {{ seting.errors.copyrights[0] }}
+                        </span>
+                      </div>
                       <!-- site_summary -->
                       <div class="form-contole">
                         <label class="form-controle"> الملخص</label>
@@ -239,7 +260,7 @@
                       </div>
                       <!-- site_instegram -->
                       <div class="form-contole">
-                        <label class="form-controle"> الفيسبوك</label>
+                        <label class="form-controle"> انستغرام</label>
                         <input
                           autocomplete="on"
                           :class="[
@@ -408,6 +429,41 @@ export default {
   name: "setingDetails",
   data: () => {
     return {
+      editor: ClassicEditor,
+      editorData: "",
+      editorConfig: {
+        toolbar: [
+          "heading",
+          "|",
+          "bold",
+          "italic",
+          "link",
+          "bulletedList",
+          "numberedList",
+          "blockQuote",
+        ],
+        heading: {
+          options: [
+            {
+              model: "paragraph",
+              title: "Paragraph",
+              class: "ck-heading_paragraph",
+            },
+            {
+              model: "heading1",
+              view: "h1",
+              title: "Heading 1",
+              class: "ck-heading_heading1",
+            },
+            {
+              model: "heading2",
+              view: "h2",
+              title: "Heading 2",
+              class: "ck-heading_heading2",
+            },
+          ],
+        },
+      },
       changeSeting_logo_lower: false,
       changeSeting_logo_upper: false,
       seting: {
@@ -428,6 +484,7 @@ export default {
           site_description: "",
           site_upper_logo: "",
           site_lower_logo: "",
+          copyrights: "",
           site_active: 1,
         },
         errors: [],

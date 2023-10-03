@@ -181,8 +181,7 @@
                   العنوان
                 </p>
                 <p class="para">
-                  الرياض - تقاطع شارع الملك فهد مع شارع الإمام سعود حي النخيل
-                  شارع وادي الحدلي مبنى 2
+                  {{ seting.site_address }}
                 </p>
               </div>
 
@@ -194,7 +193,7 @@
                   <a
                     href="tel:+966116027234"
                     style="color: black; text-decoration: none"
-                    >+966 11 6027234</a
+                    > {{ seting.site_phone }}</a
                   >
                 </p>
               </div>
@@ -206,9 +205,9 @@
                 </p>
                 <p class="para text-black">
                   <a
-                    href="mailto:info@tahakoom.gov.sa"
+                    :href="'mailto:' + seting.site_email"
                     style="text-decoration: none; color: black"
-                    >info@tahakoom.gov.sa</a
+                    >{{ seting.site_email }}</a
                   >
                 </p>
               </div>
@@ -220,10 +219,10 @@
   </section>
 </template>
 <script>
-
 export default {
   data() {
     return {
+      seting:{},
       message:{
         name:"",
         email:"",
@@ -276,6 +275,9 @@ export default {
           });
         });
     },
+  },
+  created() {
+    this.seting = this.$store.getters.getSeting
   }
 };
 </script>

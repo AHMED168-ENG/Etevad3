@@ -10,7 +10,7 @@ use App\Exports\DirectorExcel;
 class DirectorController extends Controller
 {
     public function __construct() {
-        $this->middleware("AuthAdmin" , ["except" => "excelFile"]);
+        $this->middleware("AuthAdmin" , ["except" => ["excelFile" , "activeDirectors"]]);
         $this->middleware('can:كل المديرين', ['only' => ['index']]);
         $this->middleware('can:تفاصيل المدير', ['only' => ['show']]);
         $this->middleware('can:حاله المدير', ['only' => ['activation']]);

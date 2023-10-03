@@ -11,9 +11,8 @@ use Maatwebsite\Excel\Facades\Excel;
 class NewsController extends Controller
 {
     public function __construct() {
-        $this->middleware("AuthAdmin" , ["except" => "excelFile"]);
+        $this->middleware("AuthAdmin" , ["except" => ["excelFile" , "ActiveNews" , "lastNews"]]);
         $this->middleware('can:كل الاخبار', ['only' => ['index']]);
-        $this->middleware('can:تفاصيل الخبر', ['only' => ['show']]);
         $this->middleware('can:حاله الخبر', ['only' => ['activation']]);
         $this->middleware('can:اضافه خبر', ['only' => ['store']]);
         $this->middleware('can:تعديل خبر', ['only' => ['update']]);

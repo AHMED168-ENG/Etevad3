@@ -61,7 +61,7 @@
             >
               {{ news[0].title }}
             </h5>
-            <p style="text-align: justify; font-size: 17px ; margin: 0 !important;" v-html="news[0].full_description"></p>
+            <p style="text-align: justify; font-size: 17px ; margin: 0 !important;  overflow: hidden;display: -webkit-box;-webkit-line-clamp: 2;-webkit-box-orient: vertical;" v-html="news[0].full_description"></p>
           </div>
           <div class="d-flex justify-content-between text-white">
             <div>
@@ -70,7 +70,7 @@
             </div>
             <div>
               <router-link
-                :to="{ name: 'news' }"
+                :to="'/news/' + news[0].id"
                 style="line-height: 50px; padding-left: 30px; color: #d2398d"
               >
                 <p class="fw-bold">المزيد ..</p></router-link
@@ -92,9 +92,11 @@
             alt="Card image cap"
           />
           <div class="card-body">          
-            <p style="text-align: right; font-size: 17px ; margin: 0 !important;" class="card-text fw-bold" v-html="news[0].full_description"></p>
+            <router-link style="text-decoration: none;" :to="'/news/' + element.id">
+              <p style="text-align: right; font-size: 17px ; margin: 0 !important;color:white;" class="card-text fw-bold" >{{ element.title }}</p>
+            </router-link>
 
-            <div style="float: right;width:35%" >
+            <div style="float: right;width:32%" >
               <img src="../../assets/photos/Vector2.svg" style="width: 23%" />
               <span style="font-size: 9px"> {{ formateDate(news[0].news_date).date + " " + formateDate(news[0].news_date).day }} </span>
             </div>
@@ -184,6 +186,7 @@ export default {
   }
   .respon {
     width: 90% !important;
+    box-shadow: none !important;
   }
   .pargraph {
     width: 100%;

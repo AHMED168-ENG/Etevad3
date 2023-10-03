@@ -5,7 +5,7 @@
       <p class="lino mt-3">&nbsp; الأخبار</p>
     </div>
     <div class="container" style="position: relative">
-      <img src="../../assets/photos/image111.svg" width="100%" />
+      <img style="width:100% !important;object-fit: cover;border-radius: 25px;aspect-ratio: 1/0.5;" :src="'./images/news/' + news.image"  />
     </div>
     <div
       style="
@@ -27,14 +27,14 @@
             word-wrap: break-word;
           "
         >
-          السعودية تحقق المركز الأول في جائزة مشروع الابتكار
+          {{ news.title }}
         </h3>
         <div
           style="margin-left: auto; color: #306386"
           class="d-flex align-items-center pe-3 pt-3 mb-3"
         >
           <img src="../../assets/photos/Vector2.svg" />
-          <span> &nbsp; &nbsp; الثلاثاء 13 / 4 / 2023</span>
+          <span> &nbsp; &nbsp; {{ formateDate(news.news_date).date + " " + formateDate(news.news_date).day }}</span>
         </div>
         <div
           style="
@@ -54,24 +54,59 @@
             line-height: 32px;
             word-wrap: break-word;
           "
-        >
-          نبارك للمنتخب السعودي المشارك في بطولة الفيرست ليغو الدولية بالمملكة
-          المغربية بتحقيقه المركز الأول في جائزة مشروع الا ابتكار.نبارك للمنتخب
-          السعودي المشارك في بطولة الفيرست ليغو الدولية المفتوحة⁩ بالمملكة
-          المغربية بتحقيقه المركز الأول في جائزة مشروع الا ابتكار.نبارك للمنتخب
-          السعودي المشارك في بطولة الفيرست ليغو الدولية المفتوحة⁩ بالمملكة
-          المغربية بتحقيقه المركز الأول في جائزة مشروع الا ابتكار.<br /><br />نبارك
-          للمنتخب السعودي المشارك في بطولة الفيرست ليغو الدولية بالمملكة
-          المغربية بتحقيقه المركز الأول في جائزة مشروع الا ابتكار.نبارك للمنتخب
-          السعودي المشارك في بطولة الفيرست ليغو الدولية بالمملكة المغربية
-          بتحقيقه المركز الأول في جائزة مشروع الا ابتكار.نبارك للمنتخب السعودي
-          المشارك في بطولة الفيرست ليغو الدولية بالمملكة المغربية بتحقيقه المركز
-          الأول في جائزة مشروع الا ابتكار.
+        v-html="news.full_description">
         </p>
       </div>
     </div>
   </section>
 </template>
+
+<script>
+
+export default {
+  data() {
+    return {
+      news : {}
+    }
+  },
+  methods:{
+    formateDate(date) {
+      return {
+        day: moment(date).format("dddd"),
+        date: moment(date).format("L"),
+        time: moment(date).format(" h:mm:ss a"),
+      };
+    },
+    getNews() {
+      axios
+        .get("/news/show/" + this.$route.params.id)
+        .then((result) => {
+          if (result.data.status == true) {
+            this.news = result.data.news
+          } else if (result.data.status == null) {
+            Toast.fire({
+              icon: "error",
+              title: result.data.error,
+            });
+          } else {
+            this.message.errors = result.data.errors;
+          }
+        })
+        .catch((error) => {
+          Toast.fire({
+            icon: "error",
+            title: error,
+          });
+        });
+    },
+  },
+  created() {
+    this.getNews()
+  }
+};
+</script>
+
+
 <style scoped>
 .lino {
   color: #d63384;

@@ -44,6 +44,7 @@ Route::prefix('event')->group(function () {
     Route::controller(EventController::class)->group(function () {
         Route::get('/excel', 'excelFile');
         Route::get('/activeEvent', 'activeEvent');
+        Route::get('/show/{id}', 'show');
 
     });
 });
@@ -53,6 +54,7 @@ Route::prefix('news')->group(function () {
         Route::get('/excel', 'excelFile');
         Route::get('/lastNews', 'lastNews');
         Route::get('/ActiveNews', 'ActiveNews');
+        Route::get('/show/{id}', 'show');
     });
 });
 Route::prefix('coverage')->group(function () {
@@ -118,12 +120,18 @@ Route::prefix('director')->group(function () {
     });
 });
 Route::prefix('event-recordings')->group(function () {
-    Route::controller(DirectorController::class)->group(function () {
+    Route::controller(EventRecordingsController::class)->group(function () {
         Route::get('/excel', 'excelFile');
+        Route::post('/store', 'store');
     });
 });
 Route::prefix('about-us')->group(function () {
     Route::controller(AboutUsController::class)->group(function () {
+        Route::get('/index', 'show');
+    });
+});
+Route::prefix('seting')->group(function () {
+    Route::controller(SetingController::class)->group(function () {
         Route::get('/index', 'show');
     });
 });

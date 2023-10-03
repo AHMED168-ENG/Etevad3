@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Storage;
 class ReportController extends Controller
 {
     public function __construct() {
-        $this->middleware("AuthAdmin" , ["except" => ["excelFile" , "downloadPdf"]]);
+        $this->middleware("AuthAdmin" , ["except" => ["excelFile" , "downloadPdf" , "activeReports"]]);
         $this->middleware('can:كل التقارير', ['only' => ['index']]);
         $this->middleware('can:تفاصيل التقرير', ['only' => ['show']]);
         $this->middleware('can:حاله التقرير', ['only' => ['activation']]);

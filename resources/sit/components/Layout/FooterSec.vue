@@ -15,7 +15,7 @@
               style="text-align: right"
             >
               <a href="">
-                <img class="mb-4" src="../../assets/photos/image_14.svg"
+                <img class="mb-4" :src="'./images/seting/' + seting.site_lower_logo"
               /></a>
               <div class="mb-4">
                 <p class="title">
@@ -23,8 +23,7 @@
                   العنوان
                 </p>
                 <p class="para">
-                  الرياض - تقاطع شارع الملك فهد مع شارع الإمام سعود حي النخيل
-                  شارع وادي الحدلي مبنى 2
+                  {{ seting.site_address }}
                 </p>
               </div>
 
@@ -36,7 +35,7 @@
                   <a
                     href="tel:+966116027234"
                     style="text-decoration: none; color: white"
-                    >+966 11 6027234</a
+                    >{{ seting.site_phone }}</a
                   >
                 </p>
               </div>
@@ -48,9 +47,9 @@
                 </p>
                 <p class="para">
                   <a
-                    href="mailto:info@tahakoom.gov.sa"
+                    :href="'mailto:' + seting.site_email"
                     style="text-decoration: none; color: white"
-                    >info@tahakoom.gov.sa</a
+                    >{{ seting.site_email }}</a
                   >
                 </p>
               </div>
@@ -63,10 +62,10 @@
             <div class="col-5 col-md-6 col-lg-2 col-xl-2 mx-auto Deta">
               <p class="title">أقسام الموقع</p>
               <ul class="d-flex flex-column gap-3">
-                <li><a href="" class="lin">البطولات</a></li>
-                <li><a href="" class="lin">المركز الإعلامي</a></li>
-                <li><a href="" class="lin">عن الإتحاد</a></li>
-                <li><a href="" class="lin">الفعاليات</a></li>
+                <li><router-link class="lin" to="/achievemnet">البطولات</router-link></li>
+                <li><router-link class="lin" to="/motivate">المركز الإعلامي</router-link></li>
+                <li><router-link class="lin" to="/about">عن الإتحاد</router-link></li>
+                <li><router-link class="lin" to="/action">الفعاليات</router-link></li>
               </ul>
             </div>
             <!-- Grid column -->
@@ -85,7 +84,7 @@
                   type="text"
                   placeholder=" ادخل البريد الالكتروني ..."
                 />
-                <button class="send">ارسال</button>
+                <router-link to="contact" class="send" style="text-decoration: none">ارسال</router-link>
               </div>
             </div>
 
@@ -112,10 +111,7 @@
             <!-- Grid column -->
             <div class="text-center">
               <!-- Copyright -->
-              <div class="p p-3">
-                جميع الحقوق محفوظة لدى الإتحاد السعودي للروبوت والرياضات
-                اللاسلكية SAUDI_RRC 2023
-              </div>
+              <div class="p p-3 copyRight" v-html="seting.copyrights"></div>
               <!-- Copyright -->
             </div>
             <!-- Grid column -->
@@ -134,13 +130,27 @@
 export default {
   data() {
     return {
-      logo: "My LOGO",
-    };
+      seting:{},
+    }
   },
+  methods:{
+
+  },
+  created() {
+    setTimeout(() => {
+      this.seting = this.$store.getters.getSeting
+    }, 1000);
+  }
 };
 </script>
 
 <style scoped>
+.copyRight p {
+    margin: 0 !important;
+}
+.copyRight a {
+    color:#eee !important
+}
 footer {
 }
 .title {
@@ -188,6 +198,7 @@ ul {
   color: #ffffff;
   font-weight: bold;
 }
+
 #input {
   padding: 5px;
   border-radius: 15px;

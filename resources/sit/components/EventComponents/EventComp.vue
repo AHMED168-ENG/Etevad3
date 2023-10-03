@@ -5,7 +5,7 @@
           class="card border-0 mb-5 pt-5"
           style="background: #e2f4fe; border-radius: 16px; overflow: hidden"
         >
-          <img class="card-img-top" src="../../assets/photos/Action1.jpg" alt="Title" />
+          <img class="card-img-top" :src="event.image ? './images/event/' + event.image : ''" alt="Title" />
         </div>
         <div class="container">
           <div
@@ -18,7 +18,7 @@
               margin-top: -130px;
             "
           >
-            <div class="card-body">
+            <div class="card-body" style="background:#E2F4FE">
               <div class="mb-4 me-1 mt-3" style="text-align: right">
                 <p class="lino">&nbsp; الفاعليات</p>
               </div>
@@ -35,14 +35,9 @@
                         text-align: right;
                       "
                     >
-                      بطولة الأولمبياد العالمي للروبوت
+                      {{ event.name }}
                     </h4>
-                    <p style="text-align: right">
-                      مسابقة عالمية تهدف إلى تمكين ودعم إبداعات الشباب لتطوير العديد
-                      من المجالات عن طريق استهداف فئة عمرية واسعة بين 9 و 25 عام
-                      للمنافسة في الروبوت والذكاء الاصطناعي وتقام سنويًا بتحديات
-                      رياضية وتقنية تحت عنوان موضوع متغير سنويُا قائم على حل مشكلة
-                      عالم
+                    <p style="text-align: right" v-html="event.overview">
                     </p>
                   </div>
 
@@ -84,7 +79,7 @@
                           word-wrap: break-word;
                         "
                       >
-                        17
+                      {{ new Date(event.event_date).getDate() }}
                       </p>
                       <div
                         style="
@@ -105,7 +100,9 @@
                           word-wrap: break-word;
                         "
                       >
-                        أغسطس 2023
+                      {{ formateDate(event.event_date).day }}
+                      <br>
+                      {{ formateDate(event.event_date).year }}
                       </div>
                     </div>
                   </div>
@@ -126,14 +123,7 @@
             >
               تفاصيل إضافية
             </h4>
-            <p>
-              أنشئت وزارة الرياضة الاتحاد السعودي للروبوت والرياضات اللاسلكية عام
-              2017 تحقيقًا لأهداف رؤية المملكة 2030 في تعزيز مهارات المستقبل
-              للأفراد، فالاتحاد ينظم جميع الرياضات اللاسلكية وفعاليات الروبوت في
-              المملكة. ينظم الاتحاد عددًا من المسابقات والفعاليات للرياضات اللاسلكية
-              مثل: القوارب اللاسلكية و الطائرات اللاسلكية والسيارات اللاسلكية،
-              بالإضافة إلى تنظيم الفعاليات والمسابقات الخاصة بالروبوت والذكاء
-              الاصطناعي.
+            <p v-html="event.full_description">
             </p>
           </div>
           <div
@@ -184,34 +174,75 @@
           <form class="pe-md-5 pe-2 ps-2 ps-md-5 pb-5">
             <input
               type="text"
-              class="mb-3 form-control"
+              :class="[
+                'form-control mb-3',
+                eventRecord.errors.name ? 'is-invalid' : '',
+              ]"
+              v-model="eventRecord.name"
               placeholder="الاسم ثلاثي"
             />
+            <span
+                  v-if="eventRecord.errors.name"
+                  class="invalid-feedback"
+                >
+              {{ eventRecord.errors.name[0] }}
+            </span>
             <div class="row">
               <div class="col-4">
                 <input
                   type="number"
-                  class="mb-3 form-control"
+                  :class="[
+                    'form-control mb-3',
+                    eventRecord.errors.age ? 'is-invalid' : '',
+                  ]"
+                  v-model="eventRecord.age"
                   placeholder="العمر"
                 />
+                <span
+                  v-if="eventRecord.errors.age"
+                  class="invalid-feedback"
+                >
+              {{ eventRecord.errors.age[0] }}
+            </span>
               </div>
               <div class="col-8">
                 <input
                   type="text"
-                  class="mb-3 form-control"
+                  :class="[
+                    'form-control mb-3',
+                    eventRecord.errors.mobile ? 'is-invalid' : '',
+                  ]"
                   placeholder="رقم الهاتف"
+                  v-model="eventRecord.mobile"
                 />
+                <span
+                    v-if="eventRecord.errors.mobile"
+                    class="invalid-feedback"
+                  >
+                {{ eventRecord.errors.mobile[0] }}
+              </span>
               </div>
             </div>
             <input
               type="Email"
-              class="mb-3 form-control"
-              placeholder="البريد الاكتروني"
-            />
+              :class="[
+                    'form-control mb-3',
+                    eventRecord.errors.email ? 'is-invalid' : '',
+                  ]"
+                  placeholder="الايميل الخاص بك"
+                  v-model="eventRecord.email"
+                />
+                <span
+                    v-if="eventRecord.errors.email"
+                    class="invalid-feedback"
+                  >
+                {{ eventRecord.errors.email[0] }}
+              </span>
             <input
               type="submit"
               name="submit"
               value="ارسال"
+              @click.prevent="saveRecord"
               style="
                 background-color: #d2398d;
                 border: none;
@@ -241,6 +272,7 @@ a {
   border: 2px solid #d2398d;
 }
 </style>
+
 <script>
 import Modal from "../../components/ModalComp.vue";
 import { ref } from "vue";
@@ -258,6 +290,87 @@ export default {
       toggleModal,
     };
   },
+  data() {
+    return {
+      eventRecord:{
+        name:"",
+        email:"",
+        age:null,
+        mobile:null,
+        event_id:this.$route.params.id,
+        errors:[]
+      },
+      event:{}
+    }
+  },
+  methods:{
+    formateDate(date) {
+      return {
+        day: moment(date).format("dddd"),
+        year: moment(date).format("YYYY"),
+        date: moment(date).format("L"),
+        time: moment(date).format(" h:mm:ss a"),
+      };
+    },
+    getEvents() {
+      axios
+        .get("/event/show/" + this.$route.params.id)
+        .then((result) => {
+          if (result.data.status == true) {
+            this.event = result.data.event
+            console.log(this.event)
+          } else if (result.data.status == null) {
+            Toast.fire({
+              icon: "error",
+              title: result.data.error,
+            });
+          } else {
+            this.message.errors = result.data.errors;
+          }
+        })
+        .catch((error) => {
+          Toast.fire({
+            icon: "error",
+            title: error,
+          });
+        });
+    },
+    saveRecord() {
+      axios
+        .post("/event-recordings/store", this.eventRecord, {
+          headers: { "Content-Type": "multipart/form-data" },
+        })
+        .then((result) => {
+          if (result.data.status == true) {
+            this.eventRecord.errors = {};
+            this.eventRecord = {
+              name:"",
+              email:"",
+              age:null,
+              phone:null,
+              errors:[]
+            }
+            alert("تم التسجيل في الحدث بنجاح")
+          } else if (result.data.status == null) {
+            Toast.fire({
+              icon: "error",
+              title: result.data.error,
+            });
+          } else {
+            this.eventRecord.errors = result.data.errors;
+          }
+        })
+        .catch((error) => {
+          Toast.fire({
+            icon: "error",
+            title: error,
+          });
+        });
+    },
+  },
+  created() {
+    this.getEvents()
+  }
 };
 </script>
 <style scoped>

@@ -10,7 +10,7 @@ use Maatwebsite\Excel\Facades\Excel;
 class StatisticController extends Controller
 {
     public function __construct() {
-        $this->middleware("AuthAdmin" , ["except" => "excelFile"]);
+        $this->middleware("AuthAdmin" , ["except" => ["excelFile" , "lastStatistic"]]);
         $this->middleware('can:كل الإحصائيات', ['only' => ['index']]);
         $this->middleware('can:تفاصيل الاحصائيه', ['only' => ['show']]);
         $this->middleware('can:حاله الاحصائيه', ['only' => ['activation']]);
